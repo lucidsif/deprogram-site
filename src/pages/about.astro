@@ -1,10 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
+const pageTitle = "About Me";
+import "../styles/global.css";
+
+const someColor: string = "green";
 ---
 
-<Layout title="About">
+<Layout title={pageTitle}>
+    <style define:vars={{someColor}}>
+        .skill {
+            color: var(--someColor)
+        }
+    </style>
     <body>
-        <h1>About</h1>
+        <h1 class="skill">{pageTitle}</h1>
         <h2>Subheading goes here</h2>
 
         <p>Some text here</p>
