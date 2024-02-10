@@ -1,5 +1,12 @@
 ---
+import type {BlogPost} from "../content/config";
 import Layout from "./Layout.astro";
+
+interface Props {
+  frontmatter: BlogPost;
+  children: any;
+}
+
 const { frontmatter } = Astro.props;
 ---
 <Layout title={frontmatter.title}>
