@@ -1,6 +1,7 @@
 ---
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { ViewTransitions } from 'astro:transitions';
+import Header from "../components/Header.astro";
 
 interface Props {
 	description?: string;
@@ -28,15 +29,8 @@ const { description, title } = Astro.props;
 		});
 	</script>
 	<body>
-		<a class="link" href="/">Home</a>
-		<a href="/blog">Blog</a>
-		<a href="/about">About</a>
+		<Header />
 		<slot />
 		<SpeedInsights />
 	</body>
 </html>
-<style is:global>
-	:root {
-
-	}
-</style>
