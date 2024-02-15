@@ -56,57 +56,47 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
 <style>
     :root {
-    --about-color: hsl(30, 80%, 50%);     /* Orange  */
-    --matter-color: hsl(60, 50%, 40%);    /* Brown */
-    --animal-color: hsl(340, 70%, 60%);   /* Pinkish Red */
-    --human-color: hsl(10, 60%, 60%);
-    --bengali-american-new-yorker: hsl(45, 90%, 40%) /* Deep Red */
-    --programmer-color: hsl(200, 80%, 40%);/* Cool Blue */
-    --writer-color: hsl(40, 60%, 60%);    /* Warm Yellow */
-    --husband-color: hsl(300, 50%, 65%);  /* Lavender */
-    --dad-color: hsl(220, 60%, 50%);   /* Blue-ish with earthiness */
-    --universe-color: hsl(260, 80%, 20%); /* Deep Purple */
-    --god-color: hsl(40, 100%, 70%);      /* Gold-like */
-    --brahman-color: hsl(0, 0%, 90%);     /* Very Light Gray */
-    --anatta-color: white;                /* Emptiness */ 
-}
-    .anatta-text-color {
-        animation: color-shift-text 15s forwards;
-        animation-iteration-count: 1;
-        animation-fill-mode: forwards;
-    }
-    .anatta-svg-color {
-        animation: color-shift-svg 15s forwards;
-        animation-iteration-count: 1;
-        animation-fill-mode: forwards;
+        --about-color: hsl(30, 80%, 50%);     /* Orange  */
+        --matter-color: hsl(60, 50%, 40%);    /* Brown */
+        --animal-color: hsl(340, 70%, 60%);   /* Pinkish Red */
+        --human-color: hsl(10, 60%, 60%);
+        --bengali-american-new-yorker: hsl(45, 90%, 40%) /* Deep Red */
+        --programmer-color: hsl(200, 80%, 40%);/* Cool Blue */
+        --writer-color: hsl(40, 60%, 60%);    /* Warm Yellow */
+        --husband-color: hsl(300, 50%, 65%);  /* Lavender */
+        --dad-color: hsl(220, 60%, 50%);   /* Blue-ish with earthiness */
+        --universe-color: hsl(260, 80%, 20%); /* Deep Purple */
+        --god-color: hsl(40, 100%, 70%);      /* Gold-like */
+        --brahman-color: hsl(0, 0%, 90%);     /* Very Light Gray */
+        --anatta-color: white;                /* Emptiness */ 
     }
 
-.nondual-text-effect {
-  animation: color-shift-text 12s ease-out forwards, 
-             fadeOut 10s ease-out forwards 10s  
-}
+    .nondual-text-effect {
+        animation: color-shift-text 12s ease-out forwards, 
+                fadeOut 10s ease-out forwards 10s  
+    }
 
-.nondual-svg-effect {
-    animation: color-shift-svg 12s ease-out forwards,
-             fadeOut 10s ease-out forwards 10s  
-}
+    .nondual-svg-effect {
+        animation: color-shift-svg 12s ease-out forwards,
+                fadeOut 10s ease-out forwards 10s  
+    }
 
-@keyframes marketplaceAnimation {
-    0% { opacity: 0;}
-    100% { opacity: 1; }
-}
+    @keyframes marketplaceAnimation {
+        0% { opacity: 0;}
+        100% { opacity: 1; }
+    }
 
-@keyframes fadeOut {
-  0% { 
-    opacity: 1;
-  }
-  100% {
-    opacity: 0; 
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
-  }
-}
+    @keyframes fadeOut {
+        0% { 
+            opacity: 1;
+        }
+        100% {
+            opacity: 0; 
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; 
+        }
+    }
 
     @keyframes color-shift-text {
         0%     { color: var(--about-color); }  
