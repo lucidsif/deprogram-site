@@ -1,67 +1,145 @@
 ---
 
+const [_, routeFromUrl] = Astro.url.pathname.split('/'); 
 ---
 
-<script>
+<script define:vars={{routeFromUrl}}>
+
     let entityIdx = 0;
 
     const entities = [
         'about',
-        "matter",
+        'matter',
         'animal',
         'human',
         'programmer',
         'writer',
         'husband',
-        'father',
+        'dad',
         'universe',
         'god',
         'brahman',
-        'anatta'
+        'anatta',
+        'neither existing nor non-existing'
     ];
 
-    setInterval(() => {
-        const aboutTextNode = document.querySelector('li > a > span');
-        aboutTextNode!.innerHTML = entities[entityIdx++];
-        if (entityIdx > entities.length - 1) {
-            entityIdx = 0;
-        }
-    }, 1500)
+    let intervalId;
 
-    
+    function handleMouseover() {
+        const svgNode = document.querySelector('#about-svg');
+        svgNode?.classList.add('nondual-svg-effect');
+        const textNode = document.querySelector('#about-text');
+        textNode?.classList.add('nondual-text-effect');
+    }
+
+    const headerNode = document.querySelector('header');
+
+    if (routeFromUrl === 'about' && !intervalId) {
+        headerNode?.addEventListener('mouseover', handleMouseover);
+        intervalId = setInterval(() => {
+            if (entityIdx < entities.length) {
+                console.log('idx', entityIdx);
+                const aboutTextNode = document.querySelector('li > a > span');
+                aboutTextNode.textContent = entities[entityIdx];
+                entityIdx++;
+            } else {
+                clearInterval(intervalId);
+             }
+        }, 1153);
+    } else {
+        headerNode?.removeEventListener('mouseover', handleMouseover);
+        clearInterval(intervalId);
+    }
+
 </script>
 
 
 <style>
+    :root {
+    --about-color: hsl(30, 80%, 50%);     /* Orange  */
+    --matter-color: hsl(60, 50%, 40%);    /* Brown */
+    --animal-color: hsl(340, 70%, 60%);   /* Pinkish Red */
+    --human-color: hsl(10, 60%, 60%);
+    --bengali-american-new-yorker: hsl(45, 90%, 40%) /* Deep Red */
+    --programmer-color: hsl(200, 80%, 40%);/* Cool Blue */
+    --writer-color: hsl(40, 60%, 60%);    /* Warm Yellow */
+    --husband-color: hsl(300, 50%, 65%);  /* Lavender */
+    --dad-color: hsl(220, 60%, 50%);   /* Blue-ish with earthiness */
+    --universe-color: hsl(260, 80%, 20%); /* Deep Purple */
+    --god-color: hsl(40, 100%, 70%);      /* Gold-like */
+    --brahman-color: hsl(0, 0%, 90%);     /* Very Light Gray */
+    --anatta-color: white;                /* Emptiness */ 
+}
     .anatta-text-color {
-        animation: color-shift-text 10s infinite;
-        animation-delay: 2s;
+        animation: color-shift-text 15s forwards;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
     }
     .anatta-svg-color {
-        animation: color-shift-svg 10s infinite;
-        animation-delay: 2s;
+        animation: color-shift-svg 15s forwards;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
     }
 
+.nondual-text-effect {
+  animation: color-shift-text 12s ease-out forwards, 
+             fadeOut 10s ease-out forwards 10s  
+}
+
+.nondual-svg-effect {
+    animation: color-shift-svg 12s ease-out forwards,
+             fadeOut 10s ease-out forwards 10s  
+}
+
+@keyframes marketplaceAnimation {
+    0% { opacity: 0;}
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  0% { 
+    opacity: 1;
+  }
+  100% {
+    opacity: 0; 
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+  }
+}
+
     @keyframes color-shift-text {
-        0% { color: white; }  
-        5% { color: red; } 
-        20% { color: orange; }
-        35% { color: fuchsia; } 
-        50% { color: green; } 
-        65% { color: purple; }
-        80% { color: black; }
-        100% { color: white; } 
+        0%     { color: var(--about-color); }  
+        8.33%  { color: var(--matter-color); } 
+        16.66% { color: var(--animal-color); }
+        24.99% { color: var(--human-color); } 
+        33.32% { color: var(--bengali-american-color); } 
+        41.65% { color: var(--programmer-color); } 
+        49.98% { color: var(--writer-color); }
+        58.31% { color: var(--husband-color); } 
+        66.64% { color: var(--dad-color); }
+        74.97% { color: var(--universe-color); }
+        83.3%  { color: var(--god-color); }
+        91.63% { color: var(--brahman-color); }
+        99%   { color: var(--anatta-color); }
+        100% {  animation: fadeOut 3s ease-out forwards;  } 
     }
 
     @keyframes color-shift-svg {
-        0% { stroke: white; }  
-        5% { stroke: red; } 
-        20% { stroke: orange; }
-        35% { stroke: fuchsia; } 
-        50% { stroke: green; } 
-        65% { stroke: purple; }
-        80% { stroke: black; }
-        100% { stroke: white; } 
+        0%      { stroke: var(--about-color); }  
+        8.33%   { stroke: var(--matter-color); } 
+        16.66%  { stroke: var(--animal-color); }
+        24.99%  { stroke: var(--human-color); } 
+        33.32%  { stroke: var(--bengali-american-color); } 
+        41.65%  { stroke: var(--programmer-color); } 
+        49.98%  { stroke: var(--writer-color); }
+        58.31%  { stroke: var(--husband-color); } 
+        66.64%  { stroke: var(--dad-color); }
+        74.97%  { stroke: var(--universe-color); }
+        83.3%   { stroke: var(--god-color); }
+        91.63%  { stroke: var(--brahman-color); }
+        99%    { stroke: var(--anatta-color); } 
+        100% { animation: fadeOut 3s ease-out forwards;  }
     }
 </style>
 
@@ -77,9 +155,9 @@
                 <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M21 2L20 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 2L4 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 16L20 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 16L4 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 18H15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21H14" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.9998 3C7.9997 3 5.95186 4.95029 5.99985 8C6.02324 9.48689 6.4997 10.5 7.49985 11.5C8.5 12.5 9 13 8.99985 15H14.9998C15 13.0001 15.5 12.5 16.4997 11.5001L16.4998 11.5C17.4997 10.5 17.9765 9.48689 17.9998 8C18.0478 4.95029 16 3 11.9998 3Z" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                 writings
             </a></li>
-            <li><a class="link link-hover flex gap-1 anatta-text-color" href="/about">
-                <?xml version="1.0" encoding="UTF-8"?><svg class="anatta-svg-color" width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                <span>about</span>
+            <li id="about-link"><a class="link link-hover flex gap-1" href="/about">
+                <?xml version="1.0" encoding="UTF-8"?><svg id="about-svg" stroke="green" width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span id="about-text">about</span>
             </a></li>
         </ul>
 
