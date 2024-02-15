@@ -1,6 +1,6 @@
 ---
-
 const [_, routeFromUrl] = Astro.url.pathname.split('/'); 
+
 ---
 
 <script define:vars={{routeFromUrl}}>
@@ -20,36 +20,34 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         'god',
         'brahman',
         'anatta',
-        'neither existing nor non-existing'
+        'neither thing nor nothing'
     ];
 
     let intervalId;
 
-    function handleMouseover() {
+    function styleAbout() {
         const svgNode = document.querySelector('#about-svg');
         svgNode?.classList.add('nondual-svg-effect');
         const textNode = document.querySelector('#about-text');
         textNode?.classList.add('nondual-text-effect');
     }
 
-    const headerNode = document.querySelector('header');
-
-    if (routeFromUrl === 'about' && !intervalId) {
-        headerNode?.addEventListener('mouseover', handleMouseover);
-        intervalId = setInterval(() => {
-            if (entityIdx < entities.length) {
-                console.log('idx', entityIdx);
-                const aboutTextNode = document.querySelector('li > a > span');
-                aboutTextNode.textContent = entities[entityIdx];
-                entityIdx++;
-            } else {
-                clearInterval(intervalId);
-             }
-        }, 1153);
-    } else {
-        headerNode?.removeEventListener('mouseover', handleMouseover);
-        clearInterval(intervalId);
-    }
+    document.addEventListener('astro:page-load', () => {
+        if (routeFromUrl === 'about' && !intervalId) {
+            styleAbout();
+            intervalId = setInterval(() => {
+                if (entityIdx < entities.length) {
+                    const aboutTextNode = document.querySelector('li > a > span');
+                    aboutTextNode.textContent = entities[entityIdx];
+                    entityIdx++;
+                } else {
+                    clearInterval(intervalId);
+                }
+            }, 1153);
+        } else {
+            clearInterval(intervalId);
+        }
+    });
 
 </script>
 
@@ -72,12 +70,12 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
     }
 
     .nondual-text-effect {
-        animation: color-shift-text 12s ease-out forwards, 
+        animation: color-shift-text 12s ease-out forwards 1s, 
                 fadeOut 10s ease-out forwards 10s  
     }
 
     .nondual-svg-effect {
-        animation: color-shift-svg 12s ease-out forwards,
+        animation: color-shift-svg 12s ease-out forwards 1s,
                 fadeOut 10s ease-out forwards 10s  
     }
 
@@ -141,9 +139,9 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                     <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="blue"><path d="M10 18V15C10 13.8954 10.8954 13 12 13V13C13.1046 13 14 13.8954 14 15V18" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 8L11.7317 3.13416C11.9006 3.04971 12.0994 3.0497 12.2683 3.13416L22 8" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V11" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     home
             </a></li>
-            <li><a class="link link-hover flex gap-1" href="/writings">
+            <li><a class="link link-hover flex gap-1" href="/meditations">
                 <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M21 2L20 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 2L4 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 16L20 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 16L4 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 18H15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21H14" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.9998 3C7.9997 3 5.95186 4.95029 5.99985 8C6.02324 9.48689 6.4997 10.5 7.49985 11.5C8.5 12.5 9 13 8.99985 15H14.9998C15 13.0001 15.5 12.5 16.4997 11.5001L16.4998 11.5C17.4997 10.5 17.9765 9.48689 17.9998 8C18.0478 4.95029 16 3 11.9998 3Z" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                writings
+                meditations
             </a></li>
             <li id="about-link"><a class="link link-hover flex gap-1" href="/about">
                 <?xml version="1.0" encoding="UTF-8"?><svg id="about-svg" stroke="green" width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
