@@ -12,8 +12,10 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         'matter',
         'animal',
         'human',
+        'bengali american',
         'programmer',
         'writer',
+        'son',
         'husband',
         'dad',
         'universe',
@@ -54,34 +56,31 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
 <style>
     :root {
-        --about-color: hsl(30, 80%, 50%);     /* Orange  */
-        --matter-color: hsl(60, 50%, 40%);    /* Brown */
-        --animal-color: hsl(340, 70%, 60%);   /* Pinkish Red */
-        --human-color: hsl(10, 60%, 60%);
-        --bengali-american-new-yorker: hsl(45, 90%, 40%) /* Deep Red */
-        --programmer-color: hsl(200, 80%, 40%);/* Cool Blue */
-        --writer-color: hsl(40, 60%, 60%);    /* Warm Yellow */
-        --husband-color: hsl(300, 50%, 65%);  /* Lavender */
-        --dad-color: hsl(220, 60%, 50%);   /* Blue-ish with earthiness */
-        --universe-color: hsl(260, 80%, 20%); /* Deep Purple */
-        --god-color: hsl(40, 100%, 70%);      /* Gold-like */
-        --brahman-color: hsl(0, 0%, 90%);     /* Very Light Gray */
-        --anatta-color: white;                /* Emptiness */ 
+        --about-color: hsl(30, 100%, 60%);  /* Vibrant orange for concepts, information */
+        --matter-color: hsl(0, 0%, 40%);     /* Neutral gray representing physicality */
+        --animal-color: hsl(340, 100%, 60%); /* Vivid red for life, instinct */
+        --human-color: hsl(35, 80%, 60%);   /* Warm, slightly muted orange - adaptable, social */
+        --bengali-american-color: hsl(15, 90%, 50%); /* Intense red-orange - heritage, vibrancy */
+        --programmer-color: hsl(190, 70%, 50%); /* Vivid cyan - logic, precision */
+        --writer-color: hsl(50, 90%, 60%);   /* Bright yellow - expression, creativity */
+        --son-color: hsl(225, 60%, 60%);     /* A slightly cooler blue - youth, dependability */ 
+        --husband-color: hsl(280, 40%, 70%); /* Soft purple - affection, care */
+        --dad-color: hsl(210, 50%, 55%);    /* Reliable blue - protection, strength */
+        --universe-color: hsl(270, 60%, 30%);/* Rich purple - mystery, vastness */
+        --god-color: hsl(50, 80%, 75%);      /* Light yellow - illumination, higher order  */
+        --brahman-color: hsl(0, 0%, 95%);    /* Near-white - purity, neutrality */
+        --anatta-color:  hsl(0, 0%, 90%);    /* Light gray - detachment from form */  
+        --neither-thing-nor-nothing-color: hsl(0, 0%, 50%); /* Mid-level gray */
     }
 
     .nondual-text-effect {
-        animation: color-shift-text 12s ease-out forwards 1s, 
-                fadeOut 10s ease-out forwards 10s  
+        animation: color-shift 15s ease-out forwards 1s, 
+                fadeOut 15s ease-out forwards 11.5s  
     }
 
     .nondual-svg-effect {
-        animation: color-shift-svg 12s ease-out forwards 1s,
-                fadeOut 10s ease-out forwards 10s  
-    }
-
-    @keyframes marketplaceAnimation {
-        0% { opacity: 0;}
-        100% { opacity: 1; }
+        animation: color-shift 15s ease-out forwards 1s,
+                fadeOut 15s ease-out forwards 11.5s  
     }
 
     @keyframes fadeOut {
@@ -96,38 +95,23 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         }
     }
 
-    @keyframes color-shift-text {
-        0%     { color: var(--about-color); }  
-        8.33%  { color: var(--matter-color); } 
-        16.66% { color: var(--animal-color); }
-        24.99% { color: var(--human-color); } 
-        33.32% { color: var(--bengali-american-color); } 
-        41.65% { color: var(--programmer-color); } 
-        49.98% { color: var(--writer-color); }
-        58.31% { color: var(--husband-color); } 
-        66.64% { color: var(--dad-color); }
-        74.97% { color: var(--universe-color); }
-        83.3%  { color: var(--god-color); }
-        91.63% { color: var(--brahman-color); }
-        99%   { color: var(--anatta-color); }
-        100% {  animation: fadeOut 3s ease-out forwards;  } 
-    }
-
-    @keyframes color-shift-svg {
-        0%      { stroke: var(--about-color); }  
-        8.33%   { stroke: var(--matter-color); } 
-        16.66%  { stroke: var(--animal-color); }
-        24.99%  { stroke: var(--human-color); } 
-        33.32%  { stroke: var(--bengali-american-color); } 
-        41.65%  { stroke: var(--programmer-color); } 
-        49.98%  { stroke: var(--writer-color); }
-        58.31%  { stroke: var(--husband-color); } 
-        66.64%  { stroke: var(--dad-color); }
-        74.97%  { stroke: var(--universe-color); }
-        83.3%   { stroke: var(--god-color); }
-        91.63%  { stroke: var(--brahman-color); }
-        99%    { stroke: var(--anatta-color); } 
-        100% { animation: fadeOut 3s ease-out forwards;  }
+    @keyframes color-shift {
+        0%      { color: var(--about-color); stroke: var(--about-color); }  
+        6.66%   { color: var(--matter-color); stroke: var(--matter-color); } 
+        13.33%  { color: var(--animal-color); stroke: var(--animal-color); }
+        20%     { color: var(--human-color); stroke: var(--human-color); } 
+        26.66%  { color: var(--bengali-american-color); stroke: var(--bengali-american-color); } 
+        33.33%  { color: var(--programmer-color); stroke: var(--programmer-color); } 
+        40%     { color: var(--writer-color); stroke: var(--writer-color); }
+        46.66%  { color: var(--son-color); stroke: var(--son-color); }
+        53.33%  { color: var(--husband-color); stroke: var(--husband-color); } 
+        60%     { color: var(--dad-color); stroke: var(--dad-color); }
+        66.66%  { color: var(--universe-color); stroke: var(--universe-color); }
+        73.33%  { color: var(--god-color); stroke: var(--god-color); }
+        80%     { color: var(--brahman-color); stroke: var(--brahman-color); }
+        86.66%  { color: var(--anatta-color); stroke: var(--anatta-color); }
+        93.33%  { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
+        100%    { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
     }
 </style>
 
