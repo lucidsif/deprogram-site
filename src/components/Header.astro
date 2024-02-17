@@ -15,7 +15,8 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         ['writer', 'hsl(50, 90%, 60%)'], 
         ['son', 'hsl(225, 60%, 60%)'],     
         ['husband', 'hsl(280, 40%, 70%)'], 
-        ['dad', 'hsl(210, 50%, 55%)'],    
+        ['dad', 'hsl(210, 50%, 55%)'],  
+        ['secular spiritualist', 'hsl(300, 50%, 45%)'],  
         ['universe', 'hsl(270, 60%, 30%)'],
         ['god', 'hsl(50, 80%, 75%)'],      
         ['brahman', 'hsl(0, 0%, 95%)'],   
@@ -53,7 +54,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
 <style>
     :root {
-        --about-color: hsl(30, 100%, 60%);  /* Vibrant orange for concepts, information */
+        --about-color: green;  /* Vibrant orange for concepts, information */
         --matter-color: hsl(0, 0%, 40%);     /* Neutral gray representing physicality */
         --animal-color: hsl(340, 100%, 60%); /* Vivid red for life, instinct */
         --human-color: hsl(35, 80%, 60%);   /* Warm, slightly muted orange - adaptable, social */
@@ -63,6 +64,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         --son-color: hsl(225, 60%, 60%);     /* A slightly cooler blue - youth, dependability */ 
         --husband-color: hsl(280, 40%, 70%); /* Soft purple - affection, care */
         --dad-color: hsl(210, 50%, 55%);    /* Reliable blue - protection, strength */
+        --secular-spiritualist-color: hsl(300, 50%, 45%); /* A gentle purple-ish hue */
         --universe-color: hsl(270, 60%, 30%);/* Rich purple - mystery, vastness */
         --god-color: hsl(50, 80%, 75%);      /* Light yellow - illumination, higher order  */
         --brahman-color: hsl(0, 0%, 95%);    /* Near-white - purity, neutrality */
@@ -80,25 +82,6 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent; 
         }
-    }
-
-    @keyframes color-shift {
-        0%      { color: var(--about-color); stroke: var(--about-color); }  
-        6.66%   { color: var(--matter-color); stroke: var(--matter-color); } 
-        13.33%  { color: var(--animal-color); stroke: var(--animal-color); }
-        20%     { color: var(--human-color); stroke: var(--human-color); } 
-        26.66%  { color: var(--bengali-american-color); stroke: var(--bengali-american-color); } 
-        33.33%  { color: var(--programmer-color); stroke: var(--programmer-color); } 
-        40%     { color: var(--writer-color); stroke: var(--writer-color); }
-        46.66%  { color: var(--son-color); stroke: var(--son-color); }
-        53.33%  { color: var(--husband-color); stroke: var(--husband-color); } 
-        60%     { color: var(--dad-color); stroke: var(--dad-color); }
-        66.66%  { color: var(--universe-color); stroke: var(--universe-color); }
-        73.33%  { color: var(--god-color); stroke: var(--god-color); }
-        80%     { color: var(--brahman-color); stroke: var(--brahman-color); }
-        86.66%  { color: var(--anatta-color); stroke: var(--anatta-color); }
-        93.33%  { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
-        100%    { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
     }
 
     .anicca-effect {
