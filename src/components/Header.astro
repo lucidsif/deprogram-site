@@ -5,47 +5,44 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
 <script define:vars={{routeFromUrl}}>
 
+    const colorTuples = [
+        ['about', 'green'], 
+        ['matter', 'hsl(0, 0%, 40%)'],
+        ['animal', 'hsl(340, 100%, 60%)'],
+        ['human', 'hsl(35, 80%, 60%)'],   
+        ['bengali-american', 'hsl(15, 90%, 50%)'],
+        ['programmer', 'hsl(190, 70%, 50%)'], 
+        ['writer', 'hsl(50, 90%, 60%)'], 
+        ['son', 'hsl(225, 60%, 60%)'],     
+        ['husband', 'hsl(280, 40%, 70%)'], 
+        ['dad', 'hsl(210, 50%, 55%)'],    
+        ['universe', 'hsl(270, 60%, 30%)'],
+        ['god', 'hsl(50, 80%, 75%)'],      
+        ['brahman', 'hsl(0, 0%, 95%)'],   
+        ['anatta',  'hsl(0, 0%, 90%)'],   
+        ['neither thing nor nothing', 'hsl(0, 0%, 50%)'] 
+    ]; 
+
     let entityIdx = 0;
-
-    const entities = [
-        'about',
-        'matter',
-        'animal',
-        'human',
-        'bengali american',
-        'programmer',
-        'writer',
-        'son',
-        'husband',
-        'dad',
-        'universe',
-        'god',
-        'brahman',
-        'anatta',
-        'neither thing nor nothing'
-    ];
-
     let intervalId;
 
-    function styleAbout() {
-        const svgNode = document.querySelector('#about-svg');
-        svgNode?.classList.add('nondual-svg-effect');
-        const textNode = document.querySelector('#about-text');
-        textNode?.classList.add('nondual-text-effect');
-    }
-
     document.addEventListener('astro:page-load', () => {
+        const aboutLinkNode = document.querySelector('#about-link');
+        const svgNode = document.querySelector('#about-svg');
+        const textNode = document.querySelector('#about-text');
         if (routeFromUrl === 'about' && !intervalId) {
-            styleAbout();
             intervalId = setInterval(() => {
-                if (entityIdx < entities.length) {
-                    const aboutTextNode = document.querySelector('li > a > span');
-                    aboutTextNode.textContent = entities[entityIdx];
+                const [entity, color] = colorTuples[entityIdx];
+                if (entityIdx < colorTuples.length) {
+                    aboutLinkNode.classList.add('anicca-effect');
+                    textNode.textContent = entity
+                    svgNode.style.stroke = color;
+                    textNode.style.color = color;
                     entityIdx++;
                 } else {
                     clearInterval(intervalId);
                 }
-            }, 1153);
+            }, 1000);
         } else {
             clearInterval(intervalId);
         }
@@ -71,16 +68,6 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         --brahman-color: hsl(0, 0%, 95%);    /* Near-white - purity, neutrality */
         --anatta-color:  hsl(0, 0%, 90%);    /* Light gray - detachment from form */  
         --neither-thing-nor-nothing-color: hsl(0, 0%, 50%); /* Mid-level gray */
-    }
-
-    .nondual-text-effect {
-        animation: color-shift 15s ease-out forwards 1s, 
-                fadeOut 15s ease-out forwards 11.5s  
-    }
-
-    .nondual-svg-effect {
-        animation: color-shift 15s ease-out forwards 1s,
-                fadeOut 15s ease-out forwards 11.5s  
     }
 
     @keyframes fadeOut {
@@ -112,6 +99,10 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         86.66%  { color: var(--anatta-color); stroke: var(--anatta-color); }
         93.33%  { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
         100%    { color: var(--neither-thing-nor-nothing-color); stroke: var(--neither-thing-nor-nothing-color); } 
+    }
+
+    .anicca-effect {
+        animation: fadeOut 15s ease-out forwards 9s  
     }
 </style>
 
