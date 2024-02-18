@@ -7,37 +7,42 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 <script define:vars={{routeFromUrl}}>
 
     const colorTuples = [
-        ['about', 'green'], 
-        ['matter', 'hsl(0, 0%, 40%)'],
-        ['animal', 'hsl(340, 100%, 60%)'],
-        ['human', 'hsl(35, 80%, 60%)'],   
-        ['bengali-american', 'hsl(15, 90%, 50%)'],
-        ['programmer', 'hsl(190, 70%, 50%)'], 
-        ['writer', 'hsl(50, 90%, 60%)'], 
-        ['son', 'hsl(225, 60%, 60%)'],     
-        ['husband', 'hsl(280, 40%, 70%)'], 
-        ['dad', 'hsl(210, 50%, 55%)'],  
-        ['secular spiritualist', 'hsl(300, 50%, 45%)'],  
-        ['universe', 'hsl(270, 60%, 30%)'],
-        ['god', 'hsl(50, 80%, 75%)'],      
-        ['brahman', 'hsl(0, 0%, 95%)'],   
-        ['anatta',  'hsl(0, 0%, 90%)'],   
-        ['neither thing nor nothing', 'hsl(0, 0%, 50%)'] 
+        ['about', 'green', 'fa-user'], 
+        ['matter', 'hsl(0, 0%, 40%)', 'fa-atom'],
+        ['animal', 'hsl(340, 100%, 60%)', 'fa-cow'],
+        ['human', 'hsl(35, 80%, 60%)', 'fa-person'],   
+        ['bengali-american', 'hsl(15, 90%, 50%)', 'fa-flag'],
+        ['programmer', 'hsl(190, 70%, 50%)', 'fa-code'], 
+        ['writer', 'hsl(50, 90%, 60%)', 'fa-pencil'], 
+        ['son', 'hsl(225, 60%, 60%)', 'fa-child'],     
+        ['husband', 'hsl(280, 40%, 70%)', 'fa-ring'], 
+        ['dad', 'hsl(210, 50%, 55%)', 'fa-wrench'],  
+        ['secular spiritualist', 'hsl(300, 50%, 45%)', 'fa-yin-yang'],  
+        ['universe', 'hsl(270, 60%, 30%)', 'fa-star'],
+        ['god', 'hsl(50, 80%, 75%)', 'fa-cross'],      
+        ['brahman', 'hsl(0, 0%, 95%)', 'fa-sun'],   
+        ['anatta',  'hsl(0, 0%, 90%)', 'fa-circle'],   
+        ['neither thing nor nothing', 'hsl(0, 0%, 50%)', 'fa-eye'] 
     ]; 
 
     let entityIdx = 0;
     let intervalId;
+    let lastIconClass = colorTuples[0][2];
 
     document.addEventListener('astro:page-load', () => {
         const aboutLinkNode = document.querySelector('#about-link');
-        const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
         const textNode = document.querySelector('#about-text');
         if (routeFromUrl === 'about' && !intervalId) {
             intervalId = setInterval(() => {
                 if (entityIdx < colorTuples.length) {
-                    const [entity, color] = colorTuples[entityIdx];
+                    const [entity, color, newIconClass] = colorTuples[entityIdx];
                     aboutLinkNode.classList.add('anicca-effect');
                     textNode.textContent = entity
+                    const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
+                    svgNode.classList.replace(lastIconClass, newIconClass);
+                    svgNode.dataset.icon = newIconClass;
+                    lastIconClass = newIconClass;
+
                     svgNode.style.color = color;
                     textNode.style.color = color;
                     entityIdx++;
@@ -109,7 +114,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                 meditations
             </a></li>
             <li id="about-link"><a class="link link-hover flex items-center gap-1" href="/about">
-                <i class="fa-solid fa-user" style="width: 1em; height: 1em;"></i>
+                <i class="fa-regular fa-user" style="width: 1em; height: 1em;"></i>
                 <span id="about-text">about</span>
             </a></li>
         </ul>
