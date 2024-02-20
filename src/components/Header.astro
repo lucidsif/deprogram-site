@@ -1,37 +1,42 @@
 ---
 const [_, routeFromUrl] = Astro.url.pathname.split('/'); 
-
 ---
+
 <script is:inline src="https://kit.fontawesome.com/fa3dcc5f43.js" crossorigin="anonymous"></script>
 
 <script define:vars={{routeFromUrl}}>
 
     const colorTuples = [
-        ['about', 'green', 'fa-user'], 
-        ['matter', 'hsl(0, 0%, 40%)', 'fa-atom'],
-        ['animal', 'hsl(340, 100%, 60%)', 'fa-cow'],
-        ['human', 'hsl(35, 80%, 60%)', 'fa-person'],   
-        ['bengali-american', 'hsl(15, 90%, 50%)', 'fa-flag'],
-        ['programmer', 'hsl(190, 70%, 50%)', 'fa-code'], 
-        ['writer', 'hsl(50, 90%, 60%)', 'fa-pencil'], 
-        ['son', 'hsl(225, 60%, 60%)', 'fa-child'],     
-        ['husband', 'hsl(280, 40%, 70%)', 'fa-ring'], 
-        ['dad', 'hsl(210, 50%, 55%)', 'fa-wrench'],  
-        ['secular spiritualist', 'hsl(300, 50%, 45%)', 'fa-yin-yang'],  
-        ['universe', 'hsl(270, 60%, 30%)', 'fa-star'],
-        ['god', 'hsl(50, 80%, 75%)', 'fa-cross'],      
-        ['brahman', 'hsl(0, 0%, 95%)', 'fa-sun'],   
-        ['anatta',  'hsl(0, 0%, 90%)', 'fa-circle'],   
-        ['neither thing nor nothing', 'hsl(0, 0%, 50%)', 'fa-eye'] 
+        // ['about', 'hsl(120, 50%, 60%)', 'fa-user'], // Green retained but toned down for calmness, introspection.
+        ['matter', 'hsl(0, 20%, 30%)', 'fa-atom'], // A richer gray, implying density and grounding.
+        ['eukaryote', 'green', 'fa-tree'],
+        ['animal', 'hsl(30, 50%, 50%)', 'fa-cow'], // Warm, earthy brown-orange symbolizing the natural world.
+        ['human', 'hsl(28, 40%, 55%)', 'fa-person'], // Desaturated orange-y skin tone suggesting a human warmth.   
+        ['bengali-american', 'hsl(28, 80%, 50%)', 'fa-flag'], // Subtle orange and red blend referencing both countries' flags.
+        ['programmer', 'hsl(200, 60%, 60%)', 'fa-code'], // Less saturated cyan emphasizing tech without eye strain.
+        ['writer', 'hsl(45, 70%, 65%)', 'fa-pencil'], // Brightened yellow tone hinting at parchment, illumination.
+        ['son', 'hsl(210, 80%, 70%)', 'fa-child'], // Lighter, playful blue implying youthfulness.   
+        ['ex-brother', 'hsl(205, 60%, 30%)', 'fa-gamepad'],  
+        ['husband', 'hsl(320, 40%, 65%)', 'fa-ring'], // Desaturated purple/pink tone conveying affection.
+        ['dad', 'hsl(220, 50%, 60%)', 'fa-wrench'],  // Deeper blue than 'son', suggestive of both strength and dependability.
+        ['secular spiritualist', 'hsl(280, 60%, 65%)', 'fa-yin-yang'], // Rich but gentle purple referencing spirituality beyond the purely religious.
+        ['universe', 'hsl(260, 50%, 40%)', 'fa-star'], // Slightly deeper purple, conveying mystery and a touch of coolness.
+        ['god', 'hsl(55, 70%, 80%)', 'fa-cross'], // Warmer yellow, a slightly 'muted' light source.      
+        ['brahman', 'hsl(60, 20%, 90%)', 'fa-sun'],  // Off-white hinting at transcendence and purity.
+        ['anatta',  'hsl(0, 10%, 75%)', 'fa-circle'], // Light gray conveying 'in-between-ness' without starkness.   
+        ['neither thing nor nothing', 'hsl(0, 0%, 60%)', 'fa-eye'] // Slightly warmer mid-tone gray for ambiguity.
     ]; 
 
     let entityIdx = 0;
     let intervalId;
-    let lastIconClass = colorTuples[0][2];
+    let lastIconClass = 'fa-user';
 
     document.addEventListener('astro:page-load', () => {
+
+        console.log('loaded');
         const aboutLinkNode = document.querySelector('#about-link');
         const textNode = document.querySelector('#about-text');
+
         if (routeFromUrl === 'about' && !intervalId) {
             intervalId = setInterval(() => {
                 if (entityIdx < colorTuples.length) {
@@ -39,8 +44,11 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                     aboutLinkNode.classList.add('anicca-effect');
                     textNode.textContent = entity
                     const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
+                    // TODO: make anatta use empty circle
+                    // if (newIconClass === 'anatta') {
+                    //     svgNode.
+                    // }
                     svgNode.classList.replace(lastIconClass, newIconClass);
-                    svgNode.dataset.icon = newIconClass;
                     lastIconClass = newIconClass;
 
                     svgNode.style.color = color;
@@ -49,18 +57,25 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                 } else {
                     if (intervalId) {
                         clearInterval(intervalId);
+                        entityIdx = 0;
+                        const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
+                        svgNode.classList.replace(lastIconClass, 'fa-user');
+                        lastIconClass = 'fa-user'
                     }
                 }
             }, 1000);
         } else {
             if (intervalId) {
                 clearInterval(intervalId);
+                entityIdx = 0;
+                const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
+                svgNode.classList.replace(lastIconClass, 'fa-user');
+                lastIconClass = 'fa-user'
             }
         }
-    }, {once: true});
+    });
 
 </script>
-
 
 <style>
     :root {
@@ -97,24 +112,32 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
     .anicca-effect {
         animation: fadeOut 15s ease-out forwards 9s  
     }
+
+    #home-link:hover svg {
+        color: blue;
+    }
+    #meditations-link:hover svg {
+        color: yellow;
+    }
+    #about-link:hover svg {
+        color: green; 
+    }
 </style>
 
 <header class="relative">
     <nav class="fixed flex justify-between w-full p-4 bg-black">
 
         <ul class="flex flex-row gap-4 font-mono items-center">
-            <li><a class="link link-hover flex items-center gap-1" href="/">
-                <i class="fa-solid fa-house" style="width: 1em; height: 1em;"></i>
-                    <!-- <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="blue"><path d="M10 18V15C10 13.8954 10.8954 13 12 13V13C13.1046 13 14 13.8954 14 15V18" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 8L11.7317 3.13416C11.9006 3.04971 12.0994 3.0497 12.2683 3.13416L22 8" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V11" stroke="blue" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
-                    home
+            <li id="home-link"><a class="link link-hover flex items-center gap-1" href="/">
+                <i class="fa-solid fa-house" style="width: 1em; height: 1em;" title="link to home page"></i>
+                <span>home</span>
             </a></li>
-            <li><a class="link link-hover flex items-center gap-1" href="/meditations">
+            <li id="meditations-link"><a class="link link-hover flex items-center gap-1" href="/meditations">
                 <i class="fa-solid fa-lightbulb" style="width: 1em; height: 1em"></i>
-                <!-- <?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M21 2L20 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 2L4 3" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 16L20 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 16L4 15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 18H15" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21H14" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.9998 3C7.9997 3 5.95186 4.95029 5.99985 8C6.02324 9.48689 6.4997 10.5 7.49985 11.5C8.5 12.5 9 13 8.99985 15H14.9998C15 13.0001 15.5 12.5 16.4997 11.5001L16.4998 11.5C17.4997 10.5 17.9765 9.48689 17.9998 8C18.0478 4.95029 16 3 11.9998 3Z" stroke="yellow" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg> -->
-                meditations
+                <span>meditations</span>
             </a></li>
-            <li id="about-link"><a class="link link-hover flex items-center gap-1" href="/about">
-                <i class="fa-regular fa-user" style="width: 1em; height: 1em;"></i>
+            <li id="about-link"><a class="link link-hover flex items-center gap-2" href={"/about"}>
+                <i class="fa-solid fa-user" style="width: 1em; height: 1em;"></i>
                 <span id="about-text">about</span>
             </a></li>
         </ul>
