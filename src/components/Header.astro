@@ -10,7 +10,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
     const colorTuples = [
         // ['about', 'hsl(120, 50%, 60%)', 'fa-user'], // Green retained but toned down for calmness, introspection.
         ['matter', 'hsl(0, 20%, 30%)', 'fa-atom', 'icon of an atom'], // A richer gray, implying density and grounding.
-        ['eukaryote', 'green', 'fa-tree', 'I am an eukaryote', 'icon of a tree'],
+        ['eukaryote', 'green', 'fa-tree', 'icon of a tree'],
         ['animal', 'hsl(30, 50%, 50%)', 'fa-cow', 'icon of an animal'], // Warm, earthy brown-orange symbolizing the natural world.
         ['human', 'hsl(28, 40%, 55%)', 'fa-person', 'icon of a human'], // Desaturated orange-y skin tone suggesting a human warmth.   
         ['bengali-american', 'hsl(28, 80%, 50%)', 'fa-flag', 'icon of a flag hybrid of USA and Bangladesh'], // Subtle orange and red blend referencing both countries' flags.
@@ -24,7 +24,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         ['universe', 'hsl(260, 50%, 40%)', 'fa-star', 'icon of a star'], // Slightly deeper purple, conveying mystery and a touch of coolness.
         ['god', 'hsl(55, 70%, 80%)', 'fa-cross', 'icon of a cross'], // Warmer yellow, a slightly 'muted' light source.      
         ['brahman', 'hsl(60, 20%, 90%)', 'fa-sun', 'icon of a circle'],  // Off-white hinting at transcendence and purity.
-        ['anatta',  'hsl(0, 10%, 75%)', 'fa-circle', 'icon of an empty circle'], // Light gray conveying 'in-between-ness' without starkness.   
+        ['anatta',  'hsl(0, 10%, 75%)', 'fa-circle', 'icon of an empty circle', 'fa-regular'], // Light gray conveying 'in-between-ness' without starkness.   
         ['neither thing nor nothing', 'hsl(0, 0%, 60%)', 'fa-eye', 'icon of an eye'] // Slightly warmer mid-tone gray for ambiguity.
     ]; 
 
@@ -40,13 +40,12 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         if (routeFromUrl === 'about' && intervalId === undefined) {
             intervalId = setInterval(() => {
                 if (entityIdx < colorTuples.length) {
-                    const [entity, color, newIconClass, title] = colorTuples[entityIdx];
+                    const [entity, color, newIconClass, title, iconStyle] = colorTuples[entityIdx];
                     aboutLinkNode.classList.add('anicca-effect');
                     textNode.textContent = entity
 
-                    // // TODO: make anatta use empty circle
                     const svgPrecursor = document.createElement('i');
-                    svgPrecursor.classList.add('fa-solid', newIconClass);
+                    svgPrecursor.classList.add(iconStyle ? 'fa-regular': 'fa-solid', newIconClass);
                     svgPrecursor.style = `width: 1em; height: 1em; color: ${color}`;
                     svgPrecursor.title = title;
                     const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
