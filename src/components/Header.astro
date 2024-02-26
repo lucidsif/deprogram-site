@@ -1,12 +1,37 @@
 ---
+import '@fortawesome/fontawesome-free/css/all.css';
 const initialAboutMeIcon = 'fa-user';
 const [_, routeFromUrl] = Astro.url.pathname.split('/'); 
 ---
 
-<script src="https://kit.fontawesome.com/fa3dcc5f43.js" crossorigin="anonymous"></script>
-
 <script>
+        const registerRegenSvgListener = (hoverEvent, parentElemId, iconName, animationStyle, style) => {
+            const parentListenerElem = document.querySelector(parentElemId);
+            parentListenerElem?.addEventListener(hoverEvent, () => {
+                const iconPrecursor = document.createElement('i');
+                iconPrecursor.classList.add('fa-solid', iconName);
+                if (hoverEvent === 'mouseover' && animationStyle) {
+                    iconPrecursor.classList.add(animationStyle);
+                }
+                iconPrecursor.style = `width: 1em; height: 1em; ${style}`;
 
+                const currIconNode = document.querySelector(`i.${iconName}`);
+                currIconNode?.parentNode?.replaceChild(iconPrecursor, currIconNode);
+            });
+        };
+
+        const registerNavLinkAnimationListeners = () => {
+            registerRegenSvgListener('mouseover', '#home-link', 'fa-house', 'fa-bounce', 'color: blue');
+            registerRegenSvgListener('mouseout', '#home-link', 'fa-house');
+
+            registerRegenSvgListener('mouseover', '#meditations-link', 'fa-lightbulb', 'fa-beat', 'color: yellow; --fa-animation-duration: 3s; --fa-beat-scale: 1.3;');
+            registerRegenSvgListener('mouseout', '#meditations-link', 'fa-lightbulb');
+
+            registerRegenSvgListener('mouseover', '#about-link', 'fa-user', 'fa-fade', 'color: green; --fa-animation-duration: 4s; --fa-fade-opacity: 0;');
+            registerRegenSvgListener('mouseout', '#about-link', 'fa-user');
+        };
+
+        registerNavLinkAnimationListeners();
 </script>
 
 <script define:vars={{initialAboutMeIcon, routeFromUrl}}>
@@ -34,41 +59,13 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
     let entityIdx = 0;
     let intervalId;
+    let currIcon = 'fa-user';
 
-    
 
     document.addEventListener('astro:page-load', () => {
 
-        const registerRegenSvgListener = (hoverEvent, parentElemId, iconName, animationStyle, style) => {
-            const parentListenerElem = document.querySelector(parentElemId);
-            parentListenerElem?.addEventListener(hoverEvent, () => {
-                const svgPrecursor = document.createElement('i');
-                svgPrecursor.classList.add('fa-solid', iconName);
-                if (hoverEvent === 'mouseover' && animationStyle) {
-                    svgPrecursor.classList.add(animationStyle);
-                }
-                svgPrecursor.style = `width: 1em; height: 1em; ${style}`;
-
-                const currSvgNode = document.querySelector(`svg.${iconName}`);
-                currSvgNode?.parentNode?.replaceChild(svgPrecursor, currSvgNode);
-            });
-        };
-
-        const registerNavLinkAnimationListeners = () => {
-            registerRegenSvgListener('mouseover', '#home-link', 'fa-house', 'fa-bounce', 'color: blue');
-            registerRegenSvgListener('mouseout', '#home-link', 'fa-house');
-
-            registerRegenSvgListener('mouseover', '#meditations-link', 'fa-lightbulb', 'fa-beat', 'color: yellow; --fa-animation-duration: 3s; --fa-beat-scale: 1.3;');
-            registerRegenSvgListener('mouseout', '#meditations-link', 'fa-lightbulb');
-
-            registerRegenSvgListener('mouseover', '#about-link', 'fa-user', 'fa-fade', 'color: green; --fa-animation-duration: 4s; --fa-fade-opacity: 0;');
-            registerRegenSvgListener('mouseover', '#about-link', 'fa-user', 'fa-fade');
-        };
-
         const aboutLinkNode = document.querySelector('#about-link');
         const textNode = document.querySelector('#about-text');
-
-        registerNavLinkAnimationListeners();
 
         if (routeFromUrl === 'about' && intervalId === undefined) {
             intervalId = setInterval(() => {
@@ -77,12 +74,13 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                     aboutLinkNode.classList.add('anicca-effect');
                     textNode.textContent = entity
 
-                    const svgPrecursor = document.createElement('i');
-                    svgPrecursor.classList.add(iconStyle ? 'fa-regular': 'fa-solid', newIconClass);
-                    svgPrecursor.style = `width: 1em; height: 1em; color: ${color}`;
-                    svgPrecursor.title = title;
-                    const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
-                    svgNode.parentNode.replaceChild(svgPrecursor, svgNode);
+                    const iconPrecursor = document.createElement('i');
+                    iconPrecursor.classList.add(iconStyle ? 'fa-regular': 'fa-solid', newIconClass);
+                    iconPrecursor.style = `width: 1em; height: 1em; color: ${color}`;
+                    iconPrecursor.title = title;
+                    const currIconNode = document.querySelector(`.${currIcon}`);
+                    currIconNode.parentNode.replaceChild(iconPrecursor, currIconNode);
+                    currIcon = newIconClass;
 
                     textNode.style.color = color;
                     entityIdx++;
@@ -91,7 +89,6 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                         clearInterval(intervalId);
                         intervalId = null;
                         entityIdx = 0;
-                        registerNavLinkAnimationListeners();
                     }
                 }
             }, 1000);
@@ -100,13 +97,6 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                 clearInterval(intervalId);
                 intervalId = null;
                 entityIdx = 0;
-                const svgPrecursor = document.createElement('i');
-                svgPrecursor.classList.add('fa-solid', initialAboutMeIcon);
-                svgPrecursor.style = 'width: 1em; height: 1em;';
-                svgPrecursor.title = 'Link to about me page'
-                const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
-                svgNode.parentNode.replaceChild(svgPrecursor, svgNode);
-                registerNavLinkAnimationListeners();
             }
         }
     });
@@ -167,15 +157,15 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 
         <ul class="flex flex-row gap-4 font-mono items-center">
             <li id="home-link"><a class="link link-hover flex items-center gap-1" href="/">
-                <i class="fa-solid fa-house" style="width: 1em; height: 1em;" title="link to home page"></i>
+                <i class="fa-solid fa-house" style="width: 1em; height: 1em;"></i>
                 <span>home</span>
             </a></li>
             <li id="meditations-link"><a class="link link-hover flex items-center gap-1" href="/meditations">
-                <i class="fa-solid fa-lightbulb" style="width: 1em; height: 1em --fa-animation-duration: 4s; --fa-beat-scale: 1.2;" title="link to meditations page"></i>
+                <i class="fa-solid fa-lightbulb" style="width: 1em; height: 1em --fa-animation-duration: 4s;" title="link to meditations page"></i>
                 <span>meditations</span>
             </a></li>
             <li id="about-link"><a class="link link-hover flex items-center gap-2" href={"/about"}>
-                <i class={`fa-solid ${initialAboutMeIcon}`} style="width: 1em; height: 1em; --fa-animation-duration: 4s; --fa-fade-opacity: 0;" title="Link to about me page"></i>
+                <i class={`fa-solid ${initialAboutMeIcon}`} style="width: 1em; height: 1em;" title="Link to about me page"></i>
                 <span id="about-text">about</span>
             </a></li>
         </ul>
