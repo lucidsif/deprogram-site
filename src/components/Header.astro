@@ -6,36 +6,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
 <script src="https://kit.fontawesome.com/fa3dcc5f43.js" crossorigin="anonymous"></script>
 
 <script>
-    // FIXME: animations are wonky on the about me page
-    const homeLink = document.querySelector('#home-link');
-    homeLink?.addEventListener('mouseover', () => {
-        const icon = document.querySelector('svg.fa-house');
-        icon?.classList.add('fa-bounce')
-    });
-    homeLink?.addEventListener('mouseout', () => {
-        const icon = document.querySelector('svg.fa-house');
-        icon?.classList.remove('fa-bounce');
-    });
 
-    const meditationsLink = document.querySelector('#meditations-link');
-    meditationsLink?.addEventListener('mouseover', () => {
-        const icon = document.querySelector('svg.fa-lightbulb');
-        icon?.classList.add('fa-beat')
-    });
-    meditationsLink?.addEventListener('mouseout', () => {
-        const icon = document.querySelector('svg.fa-lightbulb');
-        icon?.classList.remove('fa-beat');
-    });
-
-    const aboutLink = document.querySelector('#about-link');
-    aboutLink?.addEventListener('mouseover', () => {
-        const icon = document.querySelector('svg.fa-user');
-        icon?.classList.add('fa-fade')
-    });
-    aboutLink?.addEventListener('mouseout', () => {
-        const icon = document.querySelector('svg.fa-user');
-        icon?.classList.remove('fa-fade');
-    });
 </script>
 
 <script define:vars={{initialAboutMeIcon, routeFromUrl}}>
@@ -64,10 +35,40 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
     let entityIdx = 0;
     let intervalId;
 
+    
+
     document.addEventListener('astro:page-load', () => {
+
+        const registerRegenSvgListener = (hoverEvent, parentElemId, iconName, animationStyle, style) => {
+            const parentListenerElem = document.querySelector(parentElemId);
+            parentListenerElem?.addEventListener(hoverEvent, () => {
+                const svgPrecursor = document.createElement('i');
+                svgPrecursor.classList.add('fa-solid', iconName);
+                if (hoverEvent === 'mouseover' && animationStyle) {
+                    svgPrecursor.classList.add(animationStyle);
+                }
+                svgPrecursor.style = `width: 1em; height: 1em; ${style}`;
+
+                const currSvgNode = document.querySelector(`svg.${iconName}`);
+                currSvgNode?.parentNode?.replaceChild(svgPrecursor, currSvgNode);
+            });
+        };
+
+        const registerNavLinkAnimationListeners = () => {
+            registerRegenSvgListener('mouseover', '#home-link', 'fa-house', 'fa-bounce', 'color: blue');
+            registerRegenSvgListener('mouseout', '#home-link', 'fa-house');
+
+            registerRegenSvgListener('mouseover', '#meditations-link', 'fa-lightbulb', 'fa-beat', 'color: yellow; --fa-animation-duration: 3s; --fa-beat-scale: 1.3;');
+            registerRegenSvgListener('mouseout', '#meditations-link', 'fa-lightbulb');
+
+            registerRegenSvgListener('mouseover', '#about-link', 'fa-user', 'fa-fade', 'color: green; --fa-animation-duration: 4s; --fa-fade-opacity: 0;');
+            registerRegenSvgListener('mouseover', '#about-link', 'fa-user', 'fa-fade');
+        };
 
         const aboutLinkNode = document.querySelector('#about-link');
         const textNode = document.querySelector('#about-text');
+
+        registerNavLinkAnimationListeners();
 
         if (routeFromUrl === 'about' && intervalId === undefined) {
             intervalId = setInterval(() => {
@@ -90,6 +91,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                         clearInterval(intervalId);
                         intervalId = null;
                         entityIdx = 0;
+                        registerNavLinkAnimationListeners();
                     }
                 }
             }, 1000);
@@ -104,9 +106,12 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
                 svgPrecursor.title = 'Link to about me page'
                 const svgNode = document.querySelectorAll('.svg-inline--fa')[2];
                 svgNode.parentNode.replaceChild(svgPrecursor, svgNode);
+                registerNavLinkAnimationListeners();
             }
         }
     });
+
+
 
 </script>
 
@@ -146,7 +151,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         animation: fadeOut 15s ease-out forwards 9s  
     }
 
-    #home-link:hover svg {
+    /* #home-link:hover svg {
         color: blue;
     }
     #meditations-link:hover svg {
@@ -154,7 +159,7 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
     }
     #about-link:hover svg {
         color: green; 
-    }
+    } */
 </style>
 
 <header class="relative">
