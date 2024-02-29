@@ -13,6 +13,7 @@ const { description, title } = Astro.props;
 
 <!doctype html>
 <html lang="en" class="bg-white">
+
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
@@ -22,15 +23,11 @@ const { description, title } = Astro.props;
 		<title>{title}</title>
 		<ViewTransitions />
 	</head>
-	<script>
-		document.querySelector('.hamburger')?.addEventListener('click', () => {
-			console.log('clicked');
-			// document.querySelector('.nav-links')?.classList.toggle('expanded');
-		});
-	</script>
+
 	<body class="mx-auto" >
 		<Header />
 		<slot />
 		<SpeedInsights />
 	</body>
+	
 </html>

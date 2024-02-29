@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export const getStaticPaths = async () => {
-    const allPosts = await getCollection('posts');
+    const allPosts = await getCollection('writings');
 
     const uniqueTags = [...new Set(allPosts.map(post => post.data.tags).flat())];
 
