@@ -37,6 +37,12 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         const aboutLinkNode = document.querySelector('#about-link');
         const textNode = document.querySelector('#about-text');
 
+        if (routeFromUrl === 'about') {
+            textNode.classList.remove('hidden', 'sm:block');
+        } else {
+            textNode.classList.add('hidden', 'sm:block');
+        }
+
         if (routeFromUrl === 'about' && intervalId === undefined) {
             intervalId = setInterval(() => {
                 if (entityIdx < colorTuples.length) {
@@ -111,31 +117,22 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         animation: fadeOut 15s ease-out forwards 9s  
     }
 
-    @media (width <= 500px) {
-        #home-link span {
-            display: none;
+    @media (pointer: fine) {
+        #home-link:hover .fa-house {
+            color: blue;
+            animation: fa-bounce 1.5s infinite;
         }
-        #meditations-link span {
-            display: none;
+
+        #meditations-link:hover .fa-lightbulb { 
+            color: yellow;
+            animation: fa-beat 3s infinite;
+        } 
+
+        #about-link:hover .fa-user {
+            color: green;
+            animation: fa-fade 4s infinite;
         }
-        /* TODO: hide about text on home */
-
-    }
-    
-    #home-link:hover .fa-house {
-        color: blue;
-        animation: fa-bounce 1.5s infinite;
-    }
-
-    #meditations-link:hover .fa-lightbulb { 
-        color: yellow;
-        animation: fa-beat 3s infinite;
-    } 
-
-    #about-link:hover .fa-user {
-        color: green;
-        animation: fa-fade 4s infinite;
-    }
+    };
     
 </style>
 
@@ -145,15 +142,15 @@ const [_, routeFromUrl] = Astro.url.pathname.split('/');
         <ul class="flex flex-row gap-4 font-mono items-center">
             <li id="home-link"><a class="group flex items-center gap-1" href="/">
                 <i class="fa-solid fa-house"></i>
-                <span class="group-hover:underline">home</span>
+                <span class="group-hover:underline hidden sm:block">home</span>
             </a></li>
             <li id="meditations-link"><a class="group flex items-center gap-1" href="/meditations">
                 <i class="fa-solid fa-lightbulb" style="--fa-animation-duration: 3s; --fa-beat-scale: 1.3;" title="link to meditations page"></i>
-                <span class="group-hover:underline">writings</span>
+                <span class="group-hover:underline hidden sm:block">writings</span>
             </a></li>
             <li id="about-link" class="text-shrink-container"><a class="group flex items-center gap-1" href={"/about"}>
                 <i class={`fa-solid ${initialAboutMeIcon}`} style="--fa-animation-duration: 4s; --fa-fade-opacity: 0;" title="Link to about me page"></i>
-                <span id="about-text" class="group-hover:underline">about</span>
+                <span id="about-text" class="group-hover:underline hidden sm:block">about</span>
             </a></li>
         </ul>
 
