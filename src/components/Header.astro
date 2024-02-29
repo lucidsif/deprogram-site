@@ -1,0 +1,174 @@
+---
+import '@fortawesome/fontawesome-free/css/all.css';
+const initialAboutMeIcon = 'fa-user';
+const [_, routeFromUrl] = Astro.url.pathname.split('/'); 
+---
+
+<script define:vars={{initialAboutMeIcon, routeFromUrl}}>
+
+    const colorTuples = [
+        // ['about', 'hsl(120, 50%, 60%)', 'fa-user'], // Green retained but toned down for calmness, introspection.
+        ['matter', 'hsl(0, 20%, 30%)', 'fa-atom', 'icon of an atom'], // A richer gray, implying density and grounding.
+        ['eukaryote', 'green', 'fa-tree', 'icon of a tree'],
+        ['animal', 'hsl(30, 50%, 50%)', 'fa-cow', 'icon of an animal'], // Warm, earthy brown-orange symbolizing the natural world.
+        ['human', 'hsl(28, 40%, 55%)', 'fa-person', 'icon of a human'], // Desaturated orange-y skin tone suggesting a human warmth.   
+        ['bengali-american', 'hsl(28, 80%, 50%)', 'fa-flag', 'icon of a flag hybrid of USA and Bangladesh'], // Subtle orange and red blend referencing both countries' flags.
+        ['programmer', 'hsl(200, 60%, 60%)', 'fa-code', 'icon of code syntax'], // Less saturated cyan emphasizing tech without eye strain.
+        ['writer', 'hsl(45, 70%, 65%)', 'fa-pencil', 'icon of a pencil'], // Brightened yellow tone hinting at parchment, illumination.
+        ['son', 'hsl(210, 80%, 70%)', 'fa-child', 'icon of a child'], // Lighter, playful blue implying youthfulness.   
+        ['ex-brother', 'hsl(205, 60%, 30%)', 'fa-gamepad', 'icon of a game controller'],  
+        ['husband', 'hsl(320, 40%, 65%)', 'fa-ring', 'icon of a wedding ring'], // Desaturated purple/pink tone conveying affection.
+        ['diaper-changer', 'hsl(220, 50%, 60%)', 'fa-baby', 'icon of a baby in diapers'],  // Deeper blue than 'son', suggestive of both strength and dependability.
+        ['secular spiritualist', 'hsl(280, 60%, 65%)', 'fa-yin-yang', 'icon of the yin yang symbol'], // Rich but gentle purple referencing spirituality beyond the purely religious.
+        ['universe', 'hsl(260, 50%, 40%)', 'fa-star', 'icon of a star'], // Slightly deeper purple, conveying mystery and a touch of coolness.
+        ['god', 'hsl(55, 70%, 80%)', 'fa-cross', 'icon of a cross'], // Warmer yellow, a slightly 'muted' light source.      
+        ['brahman', 'hsl(60, 20%, 90%)', 'fa-sun', 'icon of a circle'],  // Off-white hinting at transcendence and purity.
+        ['anatta',  'hsl(0, 10%, 75%)', 'fa-circle', 'icon of an empty circle', 'fa-regular'], // Light gray conveying 'in-between-ness' without starkness.   
+        ['neither thing nor nothing', 'hsl(0, 0%, 60%)', 'fa-eye', 'icon of an eye'] // Slightly warmer mid-tone gray for ambiguity.
+    ]; 
+
+    let entityIdx = 0;
+    let intervalId;
+    let currIcon = 'fa-user';
+
+
+    document.addEventListener('astro:page-load', () => {
+
+        const aboutLinkNode = document.querySelector('#about-link');
+        const textNode = document.querySelector('#about-text');
+
+        if (routeFromUrl === 'about') {
+            textNode.classList.remove('hidden', 'sm:block');
+        } else {
+            textNode.classList.add('hidden', 'sm:block');
+        }
+
+        if (routeFromUrl === 'about' && intervalId === undefined) {
+            intervalId = setInterval(() => {
+                if (entityIdx < colorTuples.length) {
+                    const [entity, color, newIconClass, title, iconStyle] = colorTuples[entityIdx];
+                    aboutLinkNode.classList.add('anicca-effect');
+                    textNode.textContent = entity
+
+                    const iconPrecursor = document.createElement('i');
+                    iconPrecursor.classList.add(iconStyle ? 'fa-regular': 'fa-solid', newIconClass, 'hover:no-underline');
+                    iconPrecursor.style = `color: ${color};`;
+                    iconPrecursor.title = title;
+                    const currIconNode = document.querySelector(`.${currIcon}`);
+                    currIconNode.parentNode.replaceChild(iconPrecursor, currIconNode);
+                    currIcon = newIconClass;
+
+                    textNode.style.color = color;
+                    entityIdx++;
+                } else {
+                    if (intervalId) {
+                        clearInterval(intervalId);
+                        intervalId = null;
+                        entityIdx = 0;
+                    }
+                }
+            }, 1000);
+        } else {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                entityIdx = 0;
+            }
+        }
+    });
+
+
+
+</script>
+
+<style>
+    :root {
+        --about-color: green;  /* Vibrant orange for concepts, information */
+        --matter-color: hsl(0, 0%, 40%);     /* Neutral gray representing physicality */
+        --animal-color: hsl(340, 100%, 60%); /* Vivid red for life, instinct */
+        --human-color: hsl(35, 80%, 60%);   /* Warm, slightly muted orange - adaptable, social */
+        --bengali-american-color: hsl(15, 90%, 50%); /* Intense red-orange - heritage, vibrancy */
+        --programmer-color: hsl(190, 70%, 50%); /* Vivid cyan - logic, precision */
+        --writer-color: hsl(50, 90%, 60%);   /* Bright yellow - expression, creativity */
+        --son-color: hsl(225, 60%, 60%);     /* A slightly cooler blue - youth, dependability */ 
+        --husband-color: hsl(280, 40%, 70%); /* Soft purple - affection, care */
+        --dad-color: hsl(210, 50%, 55%);    /* Reliable blue - protection, strength */
+        --secular-spiritualist-color: hsl(300, 50%, 45%); /* A gentle purple-ish hue */
+        --universe-color: hsl(270, 60%, 30%);/* Rich purple - mystery, vastness */
+        --god-color: hsl(50, 80%, 75%);      /* Light yellow - illumination, higher order  */
+        --brahman-color: hsl(0, 0%, 95%);    /* Near-white - purity, neutrality */
+        --anatta-color:  hsl(0, 0%, 90%);    /* Light gray - detachment from form */  
+        --neither-thing-nor-nothing-color: hsl(0, 0%, 50%); /* Mid-level gray */
+    }
+
+    @keyframes fadeOut {
+        0% { 
+            opacity: 1;
+        }
+        100% {
+            opacity: 0; 
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; 
+        }
+    }
+
+    .anicca-effect {
+        animation: fadeOut 15s ease-out forwards 9s  
+    }
+
+    @media (pointer: fine) {
+        #home-link:hover .fa-house {
+            color: blue;
+            animation: fa-bounce 1.5s infinite;
+        }
+
+        #writings-link:hover .fa-lightbulb { 
+            color: yellow;
+            animation: fa-beat 3s infinite;
+        } 
+
+        #about-link:hover .fa-user {
+            color: green;
+            animation: fa-fade 4s infinite;
+        }
+    };
+    
+</style>
+
+<header class="relative">
+    <nav class="fixed flex justify-between w-full p-4 bg-black">
+
+        <ul class="flex flex-row gap-4 font-mono items-center">
+            <li>
+                <a id="home-link" class="group flex items-center gap-1" href="/">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="group-hover:underline hidden sm:block">home</span>
+                </a>
+            </li>
+            <li>
+                <a id="writings-link" class="group flex items-center gap-1" href="/writings">
+                    <i class="fa-solid fa-lightbulb" style="--fa-animation-duration: 3s; --fa-beat-scale: 1.3;" title="link to writings page"></i>
+                    <span class="group-hover:underline hidden sm:block">writings</span>
+                </a>
+            </li>
+            <li>
+                <a id="about-link" class="group flex items-center gap-1" href={"/about"}>
+                    <i class={`fa-solid ${initialAboutMeIcon}`} style="--fa-animation-duration: 4s; --fa-fade-opacity: 0;" title="Link to about me page"></i>
+                    <span id="about-text" class="group-hover:underline hidden sm:block">about</span>
+                </a>
+            </li>
+        </ul>
+
+        <label class="swap swap-rotate">
+            <!-- this hidden checkbox controls the state -->
+            <input type="checkbox" class="theme-controller" value="synthwave" />            
+            <!-- sun icon -->
+            <svg class="swap-on fill-current w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+            <!-- moon icon -->
+            <svg class="swap-off fill-current w-7 h-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+        </label>
+
+    </nav>
+        
+</header>

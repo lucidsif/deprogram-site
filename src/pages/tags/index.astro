@@ -6,25 +6,6 @@ const posts = await getCollection('posts');
 const tags = [...new Set(posts.map((post) => post.data.tags).flat())];
 
 ---
-<style>
-    a {
-        color: #00539F;
-    }
-
-    .tags {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .tag {
-        margin: 0.25em;
-        border: dotted 1px #a1a1a1;
-        border-radius: .5em;
-        padding: .5em 1em;
-        font-size: 1.15em;
-        background-color: #F8FCFD;
-    }
-</style>
 <Layout title="Tags">
     <div class="tags">
         {tags.map((tag) => (
